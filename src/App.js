@@ -1,23 +1,51 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+
+  let taskId = 1;
+
+  const oldTasks = [
+    {id: taskId++, task: 'Laundry' },
+    {id: taskId++, task: 'Groceries'}
+  ]
+
+  let [existingTasks, setExistingTasks] = useState(oldTasks);
+  const [task, setTask] = useState('');
+  
+
+  function AddTask() {
+    setExistingTasks(
+      existingTasks.concat({
+          id: taskId++,
+          task: task
+        })
+      )
+  }
+
+  function DeleteTask(id) {
+    setExistingTasks(existingTasks.filter((task) => (task.id !== id)))
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div className='addtask'>
+          <input type="text" placeholder='Enter a new task!' onChange={(e) => setTask(e.target.value)} />
+          <button onClick={AddTask}>Add</button>
+        </div>
+        <div className='showtask'>
+            <ul>
+              { 
+                existingTasks.map(({id, task}) => {
+                  return (
+                      <li key={id}>{task}
+                      <input type="button" value="Delete" onClick={() => DeleteTask(id)} />
+                      </li>
+                  );
+                  })
+                }
+            </ul>
+        </div>
     </div>
   );
 }
