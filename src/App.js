@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import './App.css';
 
+let taskId = 3;
+
 function App() {
 
-  let taskId = 1;
-
   const oldTasks = [
-    {id: taskId++, task: 'Laundry' },
-    {id: taskId++, task: 'Groceries'}
+    {id: 1, task: 'Laundry' },
+    {id: 2, task: 'Groceries'}
   ]
 
   let [existingTasks, setExistingTasks] = useState(oldTasks);
@@ -15,6 +15,7 @@ function App() {
   
 
   function AddTask() {
+    taskId++;
     setExistingTasks(
       existingTasks.concat({
           id: taskId++,
@@ -38,7 +39,7 @@ function App() {
               { 
                 existingTasks.map(({id, task}) => {
                   return (
-                      <li key={id}>{task}
+                      <li key={id}>{id}{task}
                       <input type="button" value="Delete" onClick={() => DeleteTask(id)} />
                       </li>
                   );
